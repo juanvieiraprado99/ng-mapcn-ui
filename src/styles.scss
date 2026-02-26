@@ -1,1 +1,107 @@
-/* You can add global styles to this file, and also import other style files */
+/* MapLibre GL (requerido por ng-mapcn) */
+@import "maplibre-gl/dist/maplibre-gl.css";
+
+@import "@fontsource-variable/geist";
+
+/* shadcn-like CSS variables (sec. 14 spec) */
+:root,
+[data-theme="light"] {
+  --background: hsl(0 0% 100%);
+  --foreground: hsl(222.2 84% 4.9%);
+  --muted: hsl(210 40% 96%);
+  --muted-foreground: hsl(215 16% 47%);
+  --primary: hsl(221.2 83.2% 53.3%);
+  --border: hsl(214 32% 91%);
+  --border-radius: 0.5rem;
+}
+
+[data-theme="dark"] {
+  --background: hsl(222.2 84% 4.9%);
+  --foreground: hsl(210 40% 98%);
+  --muted: hsl(217 33% 17%);
+  --muted-foreground: hsl(215 20% 65%);
+  --primary: hsl(217 91% 60%);
+  --border: hsl(217 33% 17%);
+  --border-radius: 0.5rem;
+}
+
+/* PrimeNG: primeicons for icons */
+@import "primeicons/primeicons.css";
+
+/* Base typography and layout */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family:
+    "Geist Variable",
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+  background: var(--background);
+  color: var(--foreground);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Skip link for accessibility */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--primary);
+  color: var(--background);
+  text-decoration: none;
+  font-size: 0.875rem;
+  z-index: 1000;
+  border-radius: var(--border-radius);
+  transition: top 0.2s;
+}
+.skip-link:focus {
+  top: 0.5rem;
+  outline: 2px solid var(--foreground);
+  outline-offset: 2px;
+}
+
+/* Section spacing (4rem–6rem desktop) */
+.app-section {
+  padding-block: 4rem 6rem;
+  padding-inline: 1.5rem;
+  max-width: 1200px;
+  margin-inline: auto;
+}
+
+@media (min-width: 768px) {
+  .app-section {
+    padding-inline: 2rem;
+  }
+}
+
+/* Components section: align p-table with shadcn variables */
+.app-components-section .p-datatable .p-datatable-thead > tr > th,
+.app-components-section .p-datatable .p-datatable-tbody > tr > td {
+  border-color: var(--border);
+  background: var(--background);
+  color: var(--foreground);
+}
+.app-components-section
+  .p-datatable.p-datatable-striped
+  .p-datatable-tbody
+  > tr:nth-child(odd)
+  > td {
+  background: var(--muted);
+}
+.app-components-section .p-datatable .p-datatable-table {
+  border-color: var(--border);
+}
+.app-components-section .p-datatable .selector-code {
+  color: var(--foreground);
+}
