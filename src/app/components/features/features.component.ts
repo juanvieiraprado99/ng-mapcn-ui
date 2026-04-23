@@ -1,27 +1,46 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CardModule } from 'primeng/card';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import {
+  lucideCog,
+  lucideLayoutGrid,
+  lucideMapPin,
+  lucidePalette,
+  lucideRoute,
+  lucideSun,
+} from '@ng-icons/lucide';
+
 import { FEATURES } from '../../landing/landing.data';
 
 @Component({
   selector: 'app-features',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'app-features' },
-  imports: [CardModule],
+  imports: [NgIcon],
+  viewProviders: [
+    provideIcons({
+      lucideSun,
+      lucideCog,
+      lucidePalette,
+      lucideLayoutGrid,
+      lucideMapPin,
+      lucideRoute,
+    }),
+  ],
   template: `
     <section class="features-section app-section" id="features">
-      <h2 class="section-title">Características</h2>
+      <div class="section-header">
+        <h2 class="section-title">Everything you need</h2>
+        <p class="section-subtitle">Powerful map components with sensible defaults and full flexibility.</p>
+      </div>
       <div class="features-grid">
         @for (f of features; track f.title) {
-          <div class="feature-card p-card">
-            <div class="p-card-body">
-              <span
-                [class]="f.icon"
-                class="feature-icon"
-                aria-hidden="true"
-              ></span>
-              <h3 class="p-card-title">{{ f.title }}</h3>
-              <p class="p-card-content">{{ f.description }}</p>
+          <div class="feature-item">
+            <span class="feature-icon" aria-hidden="true">
+              <ng-icon [name]="f.icon" class="size-[1.125rem]" />
+            </span>
+            <div>
+              <h3 class="feature-title">{{ f.title }}</h3>
+              <p class="feature-desc">{{ f.description }}</p>
             </div>
           </div>
         }
@@ -30,18 +49,27 @@ import { FEATURES } from '../../landing/landing.data';
   `,
   styles: `
     .features-section {
-      padding-block: 4rem 6rem;
+      padding-block: 5rem 6rem;
+    }
+    .section-header {
+      text-align: center;
+      margin-bottom: 3rem;
     }
     .section-title {
-      font-size: 1.75rem;
+      font-size: clamp(1.5rem, 3vw, 2rem);
       font-weight: 700;
-      margin: 0 0 2rem;
-      text-align: center;
+      letter-spacing: -0.02em;
+      margin: 0 0 0.75rem;
       color: var(--foreground);
+    }
+    .section-subtitle {
+      font-size: 1rem;
+      color: var(--muted-foreground);
+      margin: 0;
     }
     .features-grid {
       display: grid;
-      gap: 1.5rem;
+      gap: 2rem 3rem;
       grid-template-columns: 1fr;
     }
     @media (min-width: 640px) {
@@ -54,28 +82,34 @@ import { FEATURES } from '../../landing/landing.data';
         grid-template-columns: repeat(3, 1fr);
       }
     }
-    .feature-card {
-      border-radius: var(--border-radius);
-      border: 1px solid var(--border);
-      padding: 1.5rem;
-      background: var(--background);
+    .feature-item {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
     }
     .feature-icon {
-      font-size: 1.5rem;
-      color: var(--primary);
-      display: block;
-      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--foreground);
+      flex-shrink: 0;
+      margin-top: 0.125rem;
+      padding: 0.5rem;
+      background: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
     }
-    .p-card-title {
-      font-size: 1.125rem;
-      font-weight: 600;
-      margin: 0 0 0.5rem;
-    }
-    .p-card-content {
-      margin: 0;
+    .feature-title {
       font-size: 0.9375rem;
+      font-weight: 600;
+      margin: 0 0 0.375rem;
+      color: var(--foreground);
+    }
+    .feature-desc {
+      margin: 0;
+      font-size: 0.875rem;
       color: var(--muted-foreground);
-      line-height: 1.5;
+      line-height: 1.6;
     }
   `,
 })

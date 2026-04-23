@@ -1,55 +1,40 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ButtonModule } from 'primeng/button';
-import { GITHUB_URL, NPM_URL } from '../../landing/landing.data';
+import { RouterLink } from '@angular/router';
+
+import { ZardButtonComponent } from '@/components/ui/button/button.component';
 
 @Component({
   selector: 'app-hero',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'app-hero' },
-  imports: [ButtonModule],
+  imports: [ZardButtonComponent, RouterLink],
   template: `
     <section class="hero-section">
       <h1 class="hero-title">
-        Mapas bonitos para Angular, feitos de forma simples.
+        Beautiful maps,<br />made simple
       </h1>
       <p class="hero-subtitle">
-        Inspirado no mapcn (React). Componentes de mapa para Angular 18+ com
-        MapLibre GL — theme-aware, zero config e estilização inspirada no
-        shadcn/ui.
+        Ready to use, customizable map components for Angular.<br />
+        Built on MapLibre GL. Styled like shadcn/ui.
       </p>
       <div class="hero-ctas">
-        <a [href]="NPM_URL" target="_blank" rel="noopener noreferrer">
-          <p-button
-            label="Instalar"
-            severity="primary"
-            ariaLabel="Instalar via npm"
-          />
+        <a
+          z-button
+          zType="default"
+          routerLink="/docs"
+          fragment="installation"
+          aria-label="Get started with installation"
+        >
+          Get Started
         </a>
-        <a href="#instalacao">
-          <p-button
-            label="Documentação"
-            severity="secondary"
-            [outlined]="true"
-            ariaLabel="Ver documentação"
-          />
-        </a>
-        <a href="#exemplos">
-          <p-button
-            label="Ver exemplos"
-            severity="secondary"
-            [outlined]="true"
-            ariaLabel="Ver exemplos"
-          />
-        </a>
-        <a [href]="GITHUB_URL" target="_blank" rel="noopener noreferrer">
-          <p-button
-            icon="pi pi-github"
-            label="GitHub"
-            severity="secondary"
-            [outlined]="true"
-            ariaLabel="Repositório GitHub"
-          />
+        <a
+          z-button
+          zType="outline"
+          routerLink="/docs"
+          fragment="components"
+          aria-label="View map components"
+        >
+          View Components
         </a>
       </div>
     </section>
@@ -57,24 +42,24 @@ import { GITHUB_URL, NPM_URL } from '../../landing/landing.data';
   styles: `
     .hero-section {
       text-align: center;
-      padding-block: 4rem 5rem;
+      padding-block: 6rem 4rem;
       padding-inline: 1.5rem;
-      max-width: 720px;
+      max-width: 760px;
       margin-inline: auto;
     }
     .hero-title {
-      font-size: clamp(1.75rem, 4vw, 2.75rem);
+      font-size: clamp(2.75rem, 6vw, 4.5rem);
       font-weight: 700;
-      line-height: 1.2;
-      letter-spacing: -0.02em;
-      margin: 0 0 1rem;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      margin: 0 0 1.5rem;
       color: var(--foreground);
     }
     .hero-subtitle {
       font-size: 1.125rem;
       color: var(--muted-foreground);
-      line-height: 1.6;
-      margin: 0 0 2rem;
+      line-height: 1.65;
+      margin: 0 0 2.5rem;
     }
     .hero-ctas {
       display: flex;
@@ -82,12 +67,9 @@ import { GITHUB_URL, NPM_URL } from '../../landing/landing.data';
       gap: 0.75rem;
       justify-content: center;
     }
-    .hero-ctas a {
+    .hero-ctas a[z-button] {
       text-decoration: none;
     }
   `,
 })
-export class HeroComponent {
-  readonly NPM_URL = NPM_URL;
-  readonly GITHUB_URL = GITHUB_URL;
-}
+export class HeroComponent {}

@@ -7,12 +7,11 @@ import {
 } from 'ng-mapcn';
 
 @Component({
-  selector: 'app-route-planning-map-example',
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'example-map-container' },
-  imports: [MapComponent, MapControlsComponent, RoutePlanningComponent],
-  template: `
+    selector: 'app-route-planning-map-example',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: { class: 'example-map-container' },
+    imports: [MapComponent, MapControlsComponent, RoutePlanningComponent],
+    template: `
     <div class="map-wrapper">
       <ng-map
         [mapId]="mapId"
@@ -36,7 +35,7 @@ import {
       />
     </div>
   `,
-  styles: `
+    styles: `
     .map-wrapper {
       width: 100%;
       height: 280px;
@@ -44,7 +43,7 @@ import {
       overflow: hidden;
       position: relative;
     }
-  `,
+  `
 })
 export class RoutePlanningMapExampleComponent {
   readonly mapId = 'route-planning-map';

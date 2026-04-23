@@ -1,6 +1,5 @@
 export { BasicMapExampleComponent } from './basic-map-example.component';
 export { ControlsMapExampleComponent } from './controls-map-example.component';
-export { CustomStyleMapExampleComponent } from './custom-style-map-example.component';
 export { DarkThemeMapExampleComponent } from './dark-theme-map-example.component';
 export { FlytoGlobeMapExampleComponent } from './flyto-globe-map-example.component';
 export { FlytoMarkersMapExampleComponent } from './flyto-markers-map-example.component';

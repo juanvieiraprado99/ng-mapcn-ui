@@ -39,12 +39,11 @@ const FLYTO_MARKERS: MarkerConfig[] = [
 ];
 
 @Component({
-  selector: 'app-flyto-markers-map-example',
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'example-map-container' },
-  imports: [MapComponent, MapControlsComponent, MarkerComponent],
-  template: `
+    selector: 'app-flyto-markers-map-example',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: { class: 'example-map-container' },
+    imports: [MapComponent, MapControlsComponent, MarkerComponent],
+    template: `
     <div class="map-wrapper">
       <ng-map
         [mapId]="mapId"
@@ -66,7 +65,7 @@ const FLYTO_MARKERS: MarkerConfig[] = [
       }
     </div>
   `,
-  styles: `
+    styles: `
     .map-wrapper {
       width: 100%;
       height: 280px;
@@ -74,7 +73,7 @@ const FLYTO_MARKERS: MarkerConfig[] = [
       overflow: hidden;
       position: relative;
     }
-  `,
+  `
 })
 export class FlytoMarkersMapExampleComponent {
   readonly mapId = 'flyto-markers-map';

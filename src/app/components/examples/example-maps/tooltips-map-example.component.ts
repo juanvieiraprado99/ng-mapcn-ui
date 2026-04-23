@@ -56,12 +56,11 @@ const TOOLTIP_MARKERS: MarkerConfig[] = [
 ];
 
 @Component({
-  selector: 'app-tooltips-map-example',
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'example-map-container' },
-  imports: [MapComponent, MapControlsComponent, MarkerComponent],
-  template: `
+    selector: 'app-tooltips-map-example',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: { class: 'example-map-container' },
+    imports: [MapComponent, MapControlsComponent, MarkerComponent],
+    template: `
     <div class="map-wrapper">
       <ng-map
         [mapId]="mapId"
@@ -79,7 +78,7 @@ const TOOLTIP_MARKERS: MarkerConfig[] = [
       }
     </div>
   `,
-  styles: `
+    styles: `
     .map-wrapper {
       width: 100%;
       height: 280px;
@@ -87,7 +86,7 @@ const TOOLTIP_MARKERS: MarkerConfig[] = [
       overflow: hidden;
       position: relative;
     }
-  `,
+  `
 })
 export class TooltipsMapExampleComponent {
   readonly mapId = 'tooltips-map';

@@ -68,17 +68,16 @@ const ROTA_MAIRINQUE_SAO_ROQUE: RouteConfig = {
 };
 
 @Component({
-  selector: 'app-markers-map-example',
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'example-map-container' },
-  imports: [
-    MapComponent,
-    MapControlsComponent,
-    MarkerComponent,
-    RouteComponent,
-  ],
-  template: `
+    selector: 'app-markers-map-example',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: { class: 'example-map-container' },
+    imports: [
+        MapComponent,
+        MapControlsComponent,
+        MarkerComponent,
+        RouteComponent,
+    ],
+    template: `
     <div class="map-wrapper">
       <ng-map
         [mapId]="mapId"
@@ -97,7 +96,7 @@ const ROTA_MAIRINQUE_SAO_ROQUE: RouteConfig = {
       <ng-route [mapId]="mapId" [config]="routeConfig" />
     </div>
   `,
-  styles: `
+    styles: `
     .map-wrapper {
       width: 100%;
       height: 280px;
@@ -105,7 +104,7 @@ const ROTA_MAIRINQUE_SAO_ROQUE: RouteConfig = {
       overflow: hidden;
       position: relative;
     }
-  `,
+  `
 })
 export class MarkersMapExampleComponent {
   readonly mapId = 'markers-map';

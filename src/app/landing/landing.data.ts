@@ -1,69 +1,50 @@
 export const GITHUB_URL = 'https://github.com/juanvieiraprado99/ng-mapcn';
 export const NPM_URL = 'https://www.npmjs.com/package/ng-mapcn';
 export const MAPCN_URL = 'https://www.mapcn.dev/';
+export const MAPLIBRE_URL = 'https://maplibre.org/';
+export const ZARDUI_URL = 'https://zardui.com/';
 
 export const FEATURES = [
   {
     title: 'Theme-aware',
     description:
-      'O mapa se adapta ao modo claro/escuro (ou à preferência do sistema).',
-    icon: 'pi pi-sun',
+      'The map adapts to light/dark mode automatically, following system preference or your app theme.',
+    icon: 'lucideSun' as const,
   },
   {
     title: 'Zero config',
     description:
-      'Funciona com valores padrão; basta usar ng-map com mapId e opcionalmente centro e zoom.',
-    icon: 'pi pi-cog',
+      'Works out of the box. Just drop <ng-map> with a mapId and optionally center and zoom.',
+    icon: 'lucideCog' as const,
   },
   {
-    title: 'Estilo shadcn',
+    title: 'shadcn-style',
     description:
-      'Componentes composáveis e variáveis CSS; fácil integração com design systems como shadcn.',
-    icon: 'pi pi-palette',
+      'Composable components and CSS variables. Integrates naturally with shadcn-inspired design systems.',
+    icon: 'lucidePalette' as const,
   },
   {
-    title: 'MapLibre GL',
+    title: 'Composable',
     description:
-      'Acesso às capacidades do MapLibre: zoom, rotação, pitch, projeções e estilos vetoriais.',
-    icon: 'pi pi-map',
+      'Map, markers, routes and controls are separate components. Use only what you need.',
+    icon: 'lucideLayoutGrid' as const,
   },
   {
-    title: 'Composável',
+    title: 'Markers & Popups',
     description:
-      'Mapa, marcadores, rotas e controles são componentes separados; monte apenas o que precisar.',
-    icon: 'pi pi-th-large',
+      'Popups, tooltips, icons and sizes. Draggable markers and numbered stops on routes.',
+    icon: 'lucideMapPin' as const,
   },
   {
-    title: 'Marcadores e popups',
+    title: 'OSRM Route Planning',
     description:
-      'Popups, tooltips, ícones e tamanhos; marcadores arrastáveis e numerados em rotas.',
-    icon: 'pi pi-map-marker',
-  },
-  {
-    title: 'Rotas',
-    description:
-      'Desenhe linhas com cor, espessura, traço e paradas numeradas; suporte a dados OSRM.',
-    icon: 'pi pi-directions',
-  },
-  {
-    title: 'Planejamento OSRM',
-    description:
-      'Calcule rotas entre origem e destino com múltiplas alternativas e duração/distância.',
-    icon: 'pi pi-route',
-  },
-  {
-    title: 'Controles',
-    description:
-      'Zoom, bússola, localizar e tela cheia; posicionáveis e agrupáveis.',
-    icon: 'pi pi-sliders-h',
+      'Calculate routes between origin and destination with multiple alternatives, duration and distance.',
+    icon: 'lucideRoute' as const,
   },
 ] as const;
 
-/** Exemplos alinhados com docs/EXAMPLES.md (resumo rápido). Cada id corresponde ao componente em example-maps/. */
 export type ExampleId =
   | 'basic-map'
-  | 'controls-map'
-  | 'custom-style-map'
   | 'dark-theme-map'
   | 'flyto-globe-map'
   | 'flyto-markers-map'
@@ -81,64 +62,49 @@ export const EXAMPLES: ReadonlyArray<{
   {
     id: 'basic-map',
     name: 'Basic Map',
-    description: 'Mapa mínimo com zoom.',
-    demoLink: '#',
-  },
-  {
-    id: 'controls-map',
-    name: 'Controls Map',
-    description:
-      'Mapa com todos os controles: zoom, bússola, localizar, tela cheia.',
-    demoLink: '#',
-  },
-  {
-    id: 'custom-style-map',
-    name: 'Custom Style',
-    description: 'Mapa com estilo customizado (URL ou objeto).',
+    description: 'Minimal map with zoom.',
     demoLink: '#',
   },
   {
     id: 'dark-theme-map',
     name: 'Dark Theme',
-    description: 'Mapa em tema escuro (theme="\'dark\'").',
+    description: 'Map forced to dark theme via theme="dark".',
     demoLink: '#',
   },
   {
     id: 'flyto-globe-map',
     name: 'Fly To Globe',
-    description: 'Projeção globo + animação flyTo para uma coordenada.',
+    description: 'Globe projection with animated flyTo to a coordinate.',
     demoLink: '#',
   },
   {
     id: 'flyto-markers-map',
     name: 'Fly To Markers',
-    description: 'Marcadores; clique faz flyTo até o marcador.',
+    description: 'Click a marker to fly the camera to it.',
     demoLink: '#',
   },
   {
     id: 'markers-map',
-    name: 'Markers Map',
-    description: 'Marcadores com tamanhos, cores e popups; inclui uma rota.',
+    name: 'Markers',
+    description: 'Markers with sizes, colors and popups, including a route.',
     demoLink: '#',
   },
   {
     id: 'routes-map',
-    name: 'Routes Map',
-    description: 'Múltiplas rotas; uma com paradas e marcadores numerados.',
+    name: 'Routes',
+    description: 'Multiple routes; one with stops and numbered markers.',
     demoLink: '#',
   },
   {
     id: 'route-planning-map',
     name: 'Route Planning',
-    description:
-      'Rotas OSRM entre dois pontos; alternativas, tempo e distância.',
+    description: 'OSRM routes between two points with alternatives and ETA.',
     demoLink: '#',
   },
   {
     id: 'tooltips-map',
-    name: 'Tooltips Map',
-    description:
-      'Marcadores com tooltips (âncora, offset, enabled, showOnHover).',
+    name: 'Tooltips',
+    description: 'Markers with tooltips (anchor, offset, showOnHover).',
     demoLink: '#',
   },
 ];
@@ -147,31 +113,31 @@ export const COMPONENTS_LIST = [
   {
     name: 'Map',
     selector: 'ng-map',
-    description: 'Cria e gerencia a instância do mapa (MapLibre).',
+    description: 'Creates and manages the MapLibre GL map instance.',
   },
   {
     name: 'Marker',
     selector: 'ng-marker',
-    description: 'Marcador com popup, tooltip e ícone.',
+    description: 'Marker with popup, tooltip and custom icon support.',
   },
   {
     name: 'Route',
     selector: 'ng-route',
-    description: 'Linha/rota com coordenadas e paradas.',
+    description: 'Draws a line/route from coordinates with optional stops.',
   },
   {
     name: 'Route Planning',
     selector: 'ng-route-planning',
-    description: 'Planejamento de rotas com OSRM.',
+    description: 'OSRM-powered route planning between origin and destination.',
   },
   {
     name: 'Map Controls',
     selector: 'ng-map-controls',
-    description: 'Agrupa zoom, bússola, localizar e tela cheia.',
+    description: 'Groups zoom, compass, locate and fullscreen controls.',
   },
   {
     name: 'Zoom / Compass / Locate / Fullscreen',
     selector: 'ng-zoom-control, etc.',
-    description: 'Controles individuais posicionáveis.',
+    description: 'Individual, positionable controls.',
   },
 ] as const;

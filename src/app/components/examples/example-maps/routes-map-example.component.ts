@@ -44,12 +44,11 @@ const ROUTES: RouteConfig[] = [
 ];
 
 @Component({
-  selector: 'app-routes-map-example',
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'example-map-container' },
-  imports: [MapComponent, MapControlsComponent, RouteComponent],
-  template: `
+    selector: 'app-routes-map-example',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: { class: 'example-map-container' },
+    imports: [MapComponent, MapControlsComponent, RouteComponent],
+    template: `
     <div class="map-wrapper">
       <ng-map
         [mapId]="mapId"
@@ -67,7 +66,7 @@ const ROUTES: RouteConfig[] = [
       }
     </div>
   `,
-  styles: `
+    styles: `
     .map-wrapper {
       width: 100%;
       height: 280px;
@@ -75,7 +74,7 @@ const ROUTES: RouteConfig[] = [
       overflow: hidden;
       position: relative;
     }
-  `,
+  `
 })
 export class RoutesMapExampleComponent {
   readonly mapId = 'routes-map';

@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MapComponent, MapControlsComponent, MapService } from 'ng-mapcn';
-import { ButtonModule } from 'primeng/button';
+
+import { ZardButtonComponent } from '@/components/ui/button/button.component';
 
 @Component({
   selector: 'app-flyto-globe-map-example',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'example-map-container' },
-  imports: [MapComponent, MapControlsComponent, ButtonModule],
+  imports: [MapComponent, MapControlsComponent, ZardButtonComponent],
   template: `
     <div class="map-wrapper">
       <ng-map
@@ -25,12 +25,15 @@ import { ButtonModule } from 'primeng/button';
         [showFullscreen]="true"
       />
       <div class="flyto-actions">
-        <p-button
-          label="Ir para Mairinque, SP"
-          severity="secondary"
-          size="small"
-          (onClick)="flyToMairinque()"
-        />
+        <button
+          type="button"
+          z-button
+          zType="secondary"
+          zSize="sm"
+          (click)="flyToMairinque()"
+        >
+          Ir para Mairinque, SP
+        </button>
       </div>
     </div>
   `,
@@ -38,32 +41,33 @@ import { ButtonModule } from 'primeng/button';
     .map-wrapper {
       width: 100%;
       height: 280px;
-      border-radius: var(--border-radius);
+      border-radius: var(--radius-md);
       overflow: hidden;
       position: relative;
     }
     .flyto-actions {
       position: absolute;
       bottom: 0.75rem;
-      left: 0.75rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
     }
   `,
 })
 export class FlytoGlobeMapExampleComponent {
-  readonly mapId = 'flyto-globe-map';
   private readonly mapService = inject(MapService);
 
-  readonly mairinqueCoordinates: [number, number] = [-47.1855, -23.5393];
-  readonly mairinqueZoom = 14;
+  readonly mapId = 'flyto-globe-map';
 
   onMapReady(): void {}
 
   flyToMairinque(): void {
-    this.mapService.flyTo(
-      this.mapId,
-      this.mairinqueCoordinates,
-      this.mairinqueZoom,
-      2000,
-    );
+    const map = this.mapService.getMap(this.mapId);
+    if (!map) return;
+    map.flyTo({
+      center: [-47.1833, -23.5458],
+      zoom: 10,
+      essential: true,
+    });
   }
 }

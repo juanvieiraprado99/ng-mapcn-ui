@@ -1,38 +1,43 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 
-const INSTALL_CMD = `npm install ng-mapcn`;
-const INSTALL_CSS = `/* Incluir em angular.json (styles) ou em estilos globais */
+const INSTALL_CMD = `npm install ng-mapcn@21.0.0-beta.5`;
+const INSTALL_CSS = `/* Add to angular.json (styles) or your global stylesheet */
 @import 'maplibre-gl/dist/maplibre-gl.css';`;
 
-const QUICK_START_HTML = `<ng-map [mapId]="'my-map'" [center]="[0, 0]" [zoom]="2" (mapReady)="onMapReady($event)"></ng-map>
-<ng-zoom-control [mapId]="'my-map'" position="top-right"></ng-zoom-control>`;
+const QUICK_START_HTML = `<ng-map
+  [mapId]="'my-map'"
+  [center]="[0, 0]"
+  [zoom]="2"
+  (mapReady)="onMapReady($event)"
+/>
+<ng-map-controls [mapId]="'my-map'" [position]="'top-right'" [showZoom]="true" />`;
 
-const QUICK_START_TS = `import { MapComponent, ZoomControlComponent } from 'ng-mapcn';
-// ... imports no componente; onMapReady(map) { ... }`;
+const QUICK_START_TS = `import { MapComponent, MapControlsComponent } from 'ng-mapcn';
+// Add both to your component's imports array. onMapReady(map) { ... }`;
 
 @Component({
   selector: 'app-installation',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'app-installation' },
   template: `
-    <section class="installation-section app-section" id="instalacao">
-      <h2 class="section-title">Instalação</h2>
-      <p class="requirement">Requisito: Angular 18 ou superior. O MapLibre GL já vem incluído na biblioteca.</p>
+    <section class="installation-section app-section" id="installation">
+      <div class="section-header">
+        <h2 class="section-title">Installation</h2>
+        <p class="section-subtitle">Requires Angular 21.2.9+. MapLibre GL is included.</p>
+      </div>
       <div class="code-block">
         <pre><code>{{ installCmd }}</code></pre>
         <button
           type="button"
           class="copy-btn"
           (click)="copy(installCmd, 1)"
-          [attr.aria-label]="copied1() ? 'Copiado' : 'Copiar comando'"
+          [attr.aria-label]="copied1() ? 'Copied' : 'Copy command'"
         >
-          {{ copied1() ? 'Copiado!' : 'Copiar' }}
+          {{ copied1() ? 'Copied!' : 'Copy' }}
         </button>
       </div>
       <p class="css-note">
-        Incluir o CSS do MapLibre em <code>angular.json</code> (styles) ou em
-        estilos globais:
+        Add the MapLibre CSS to <code>angular.json</code> (styles) or your global stylesheet:
       </p>
       <div class="code-block">
         <pre><code>{{ installCss }}</code></pre>
@@ -40,23 +45,23 @@ const QUICK_START_TS = `import { MapComponent, ZoomControlComponent } from 'ng-m
           type="button"
           class="copy-btn"
           (click)="copy(installCss, 2)"
-          [attr.aria-label]="copied2() ? 'Copiado' : 'Copiar CSS'"
+          [attr.aria-label]="copied2() ? 'Copied' : 'Copy CSS'"
         >
-          {{ copied2() ? 'Copiado!' : 'Copiar' }}
+          {{ copied2() ? 'Copied!' : 'Copy' }}
         </button>
       </div>
 
       <h3 class="subsection-title">Quick Start</h3>
-      <p class="subsection-desc">Trecho mínimo de template e import:</p>
+      <p class="subsection-desc">Minimal template and import:</p>
       <div class="code-block">
         <pre><code>{{ quickStartHtml }}</code></pre>
         <button
           type="button"
           class="copy-btn"
           (click)="copy(quickStartHtml, 3)"
-          [attr.aria-label]="copied3() ? 'Copiado' : 'Copiar HTML'"
+          [attr.aria-label]="copied3() ? 'Copied' : 'Copy HTML'"
         >
-          {{ copied3() ? 'Copiado!' : 'Copiar' }}
+          {{ copied3() ? 'Copied!' : 'Copy' }}
         </button>
       </div>
       <div class="code-block">
@@ -65,22 +70,31 @@ const QUICK_START_TS = `import { MapComponent, ZoomControlComponent } from 'ng-m
           type="button"
           class="copy-btn"
           (click)="copy(quickStartTs, 4)"
-          [attr.aria-label]="copied4() ? 'Copiado' : 'Copiar TypeScript'"
+          [attr.aria-label]="copied4() ? 'Copied' : 'Copy TypeScript'"
         >
-          {{ copied4() ? 'Copiado!' : 'Copiar' }}
+          {{ copied4() ? 'Copied!' : 'Copy' }}
         </button>
       </div>
     </section>
   `,
   styles: `
     .installation-section {
-      padding-block: 4rem 6rem;
+      padding-block: 5rem 6rem;
+    }
+    .section-header {
+      margin-bottom: 2rem;
     }
     .section-title {
-      font-size: 1.75rem;
+      font-size: clamp(1.5rem, 3vw, 2rem);
       font-weight: 700;
-      margin: 0 0 1rem;
+      letter-spacing: -0.02em;
+      margin: 0 0 0.5rem;
       color: var(--foreground);
+    }
+    .section-subtitle {
+      font-size: 1rem;
+      color: var(--muted-foreground);
+      margin: 0 0 0.5rem;
     }
     .subsection-title {
       font-size: 1.25rem;
