@@ -16,6 +16,7 @@
               ? "dark"
               : "light";
         document.documentElement.setAttribute("data-theme", t);
+        document.documentElement.classList.toggle("dark", t === "dark");
       })();
     </script>
   </head>
