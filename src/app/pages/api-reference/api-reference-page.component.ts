@@ -1,3 +1,4 @@
+import { NgComponentOutlet } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -6,23 +7,37 @@ import {
   OnDestroy,
   QueryList,
   signal,
+  Type,
   ViewChildren,
 } from '@angular/core';
 
 import { ZardTableImports } from '@/components/ui/table/table.imports';
 import { CodeBlockComponent } from '../../components/code-block/code-block.component';
+import {
+  BasicMapExampleComponent,
+  ControlsMapExampleComponent,
+  MarkersMapExampleComponent,
+  RoutesMapExampleComponent,
+} from '../../components/examples/example-maps';
 import { API_SECTIONS, ApiSection } from './api-reference.data';
+
+const SECTION_MAP_PREVIEWS = new Map<string, Type<unknown>>([
+  ['ng-map', BasicMapExampleComponent],
+  ['ng-marker', MarkersMapExampleComponent],
+  ['ng-route', RoutesMapExampleComponent],
+  ['ng-map-controls', ControlsMapExampleComponent],
+]);
 
 @Component({
   selector: 'app-api-reference-page',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [...ZardTableImports, CodeBlockComponent],
+  imports: [...ZardTableImports, CodeBlockComponent, NgComponentOutlet],
   template: `
     <div class="api-ref-layout">
-      <!-- Sidebar interna de âncoras -->
-      <aside class="api-ref-sidebar" aria-label="Navegação da API">
-        <div class="sidebar-group-label">Componentes</div>
+      <!-- Internal anchor sidebar -->
+      <aside class="api-ref-sidebar" aria-label="API navigation">
+        <div class="sidebar-group-label">Components</div>
         @for (section of componentSections; track section.id) {
           <button
             type="button"
@@ -66,16 +81,16 @@ import { API_SECTIONS, ApiSection } from './api-reference.data';
         <header class="page-header">
           <h1 class="page-title">API Reference</h1>
           <p class="page-subtitle">
-            Todos os componentes, inputs, outputs e interfaces exportados pela
-            biblioteca
+            All components, inputs, outputs, and interfaces exported by the
+            library
             <code class="pkg-badge">ng-mapcn</code>.
           </p>
         </header>
 
-        <!-- Seções -->
+        <!-- Sections -->
         @for (section of sections; track section.id) {
           <section class="api-section" [id]="section.id" #sectionEl>
-            <!-- Header da seção -->
+            <!-- Section header -->
             <div class="section-header">
               <div class="section-title-row">
                 <h2 class="section-title">{{ section.title }}</h2>
@@ -94,7 +109,25 @@ import { API_SECTIONS, ApiSection } from './api-reference.data';
               <p class="section-desc">{{ section.description }}</p>
             </div>
 
-            <!-- Tabela de Inputs -->
+            @if (getSectionMapPreview(section.id); as previewCmp) {
+              <div
+                class="section-map-preview"
+                role="region"
+                [attr.aria-label]="section.title + ' live map preview'"
+              >
+                <div class="preview-reference">
+                  Reference:
+                  <code class="preview-reference-code"
+                    >&lt;{{ section.selector }}&gt;</code
+                  >
+                </div>
+                <div class="section-map-canvas">
+                  <ng-container *ngComponentOutlet="previewCmp" />
+                </div>
+              </div>
+            }
+
+            <!-- Inputs table -->
             @if (section.inputs?.length) {
               <div class="table-group">
                 <h3 class="table-group-title">Inputs</h3>
@@ -111,10 +144,10 @@ import { API_SECTIONS, ApiSection } from './api-reference.data';
                   >
                     <thead z-table-header>
                       <tr z-table-row>
-                        <th z-table-head>Nome</th>
-                        <th z-table-head>Tipo</th>
-                        <th z-table-head>Padrão</th>
-                        <th z-table-head>Descrição</th>
+                        <th z-table-head>Name</th>
+                        <th z-table-head>Type</th>
+                        <th z-table-head>Default</th>
+                        <th z-table-head>Description</th>
                       </tr>
                     </thead>
                     <tbody z-table-body>
@@ -124,7 +157,7 @@ import { API_SECTIONS, ApiSection } from './api-reference.data';
                             <span class="prop-wrap">
                               <code class="prop-name">{{ prop.name }}</code>
                               @if (prop.required) {
-                                <span class="required-star" title="Obrigatório"
+                                <span class="required-star" title="Required"
                                   >*</span
                                 >
                               }
@@ -157,7 +190,7 @@ import { API_SECTIONS, ApiSection } from './api-reference.data';
               </div>
             }
 
-            <!-- Tabela de Outputs -->
+            <!-- Outputs table -->
             @if (section.outputs?.length) {
               <div class="table-group">
                 <h3 class="table-group-title">Outputs</h3>
@@ -174,9 +207,9 @@ import { API_SECTIONS, ApiSection } from './api-reference.data';
                   >
                     <thead z-table-header>
                       <tr z-table-row>
-                        <th z-table-head>Nome</th>
-                        <th z-table-head>Tipo emitido</th>
-                        <th z-table-head>Descrição</th>
+                        <th z-table-head>Name</th>
+                        <th z-table-head>Emitted Type</th>
+                        <th z-table-head>Description</th>
                       </tr>
                     </thead>
                     <tbody z-table-body>
@@ -203,14 +236,14 @@ import { API_SECTIONS, ApiSection } from './api-reference.data';
               </div>
             }
 
-            <!-- Tabela de Propriedades (interfaces) -->
+            <!-- Properties table (interfaces) -->
             @if (section.properties?.length) {
               <div class="table-group">
-                <h3 class="table-group-title">Propriedades</h3>
+                <h3 class="table-group-title">Properties</h3>
                 <div
                   class="table-wrap"
                   role="region"
-                  [attr.aria-label]="section.title + ' propriedades'"
+                  [attr.aria-label]="section.title + ' properties'"
                 >
                   <table
                     z-table
@@ -220,11 +253,11 @@ import { API_SECTIONS, ApiSection } from './api-reference.data';
                   >
                     <thead z-table-header>
                       <tr z-table-row>
-                        <th z-table-head>Propriedade</th>
-                        <th z-table-head>Tipo</th>
-                        <th z-table-head>Obrigatório</th>
-                        <th z-table-head>Padrão</th>
-                        <th z-table-head>Descrição</th>
+                        <th z-table-head>Property</th>
+                        <th z-table-head>Type</th>
+                        <th z-table-head>Required</th>
+                        <th z-table-head>Default</th>
+                        <th z-table-head>Description</th>
                       </tr>
                     </thead>
                     <tbody z-table-body>
@@ -242,7 +275,7 @@ import { API_SECTIONS, ApiSection } from './api-reference.data';
                           </td>
                           <td z-table-cell>
                             @if (prop.required) {
-                              <span class="required-check" title="Obrigatório"
+                              <span class="required-check" title="Required"
                                 >✓</span
                               >
                             } @else {
@@ -269,10 +302,10 @@ import { API_SECTIONS, ApiSection } from './api-reference.data';
               </div>
             }
 
-            <!-- Exemplo de código -->
+            <!-- Code example -->
             @if (section.codeExample) {
               <div class="code-example-group">
-                <h3 class="table-group-title">Exemplo</h3>
+                <h3 class="table-group-title">Example</h3>
                 <app-code-block [code]="section.codeExample" language="html" />
               </div>
             }
@@ -281,12 +314,12 @@ import { API_SECTIONS, ApiSection } from './api-reference.data';
           </section>
         }
 
-        <!-- Botão voltar ao topo -->
+        <!-- Back to top button -->
         <button
           type="button"
           class="back-to-top"
           (click)="scrollToTop()"
-          aria-label="Voltar ao topo"
+          aria-label="Back to top"
         >
           ↑
         </button>
@@ -300,7 +333,7 @@ import { API_SECTIONS, ApiSection } from './api-reference.data';
       min-height: calc(100vh - 56px);
     }
 
-    /* ── Sidebar interna ── */
+    /* ── Internal sidebar ── */
     .api-ref-sidebar {
       position: sticky;
       top: 56px;
@@ -415,7 +448,7 @@ import { API_SECTIONS, ApiSection } from './api-reference.data';
       border: 1px solid var(--border);
     }
 
-    /* ── Seção ── */
+    /* ── Section ── */
     .api-section {
       scroll-margin-top: 72px;
     }
@@ -481,7 +514,43 @@ import { API_SECTIONS, ApiSection } from './api-reference.data';
       margin: 0;
     }
 
-    /* ── Tabelas ── */
+    .section-map-preview {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--muted);
+      margin-bottom: 1.75rem;
+    }
+
+    .preview-reference {
+      padding: 0.5rem 0.75rem;
+      font-size: 0.75rem;
+      color: var(--muted-foreground);
+      border-bottom: 1px solid var(--border);
+      background: color-mix(in oklch, var(--background) 88%, var(--muted) 12%);
+    }
+
+    .preview-reference-code {
+      margin-left: 0.35rem;
+      font-family: ui-monospace, 'Cascadia Code', Consolas, monospace;
+      color: var(--foreground);
+    }
+
+    .section-map-canvas {
+      height: 240px;
+    }
+
+    .section-map-canvas ::ng-deep .example-map-container {
+      display: block;
+      height: 100%;
+    }
+
+    .section-map-canvas ::ng-deep .map-wrapper {
+      height: 100% !important;
+      border-radius: 0;
+    }
+
+    /* ── Tables ── */
     .table-group {
       margin-bottom: 1.75rem;
     }
@@ -592,7 +661,7 @@ import { API_SECTIONS, ApiSection } from './api-reference.data';
       margin: 2.5rem 0;
     }
 
-    /* ── Botão voltar ao topo ── */
+    /* ── Back to top button ── */
     .back-to-top {
       position: fixed;
       bottom: 2rem;
@@ -693,6 +762,10 @@ export class ApiReferencePageComponent implements AfterViewInit, OnDestroy {
 
   scrollToTop(): void {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  getSectionMapPreview(sectionId: string): Type<unknown> | undefined {
+    return SECTION_MAP_PREVIEWS.get(sectionId);
   }
 
   getTypeClass(type: string): string {
